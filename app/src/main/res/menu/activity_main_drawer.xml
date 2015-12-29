@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_sstq"
+            android:icon="@drawable/ic_sstq"
+            android:title="实时天气" />
+        <item
+            android:id="@+id/menu_sdyw"
+            android:icon="@drawable/ic_sdyw"
+            android:title="师大要闻" />
+        <item
+            android:id="@+id/menu_xydt"
+            android:icon="@drawable/ic_xydt"
+            android:title="校园动态" />
+        <item
+            android:id="@+id/menu_wdkb"
+            android:icon="@drawable/ic_wdkb"
+            android:title="我的课表" />
+        <item
+            android:id="@+id/menu_kccj"
+            android:icon="@drawable/ic_kccj"
+            android:title="课程成绩" />
+        <item
+            android:id="@+id/menu_ksap"
+            android:icon="@drawable/ic_ksap"
+            android:title="考试安排" />
+        <item
+            android:id="@+id/menu_kdcx"
+            android:icon="@drawable/ic_kdcx"
+            android:title="快递查询"/>
+    </group>
+
+    <group android:id="@+id/menu_group_2">
+        <item
+            android:id="@+id/menu_logout"
+            android:title="注销登录" />
+        <item
+            android:id="@+id/menu_settings"
+            android:title="更多设置" />
+    </group>
+
+</menu>

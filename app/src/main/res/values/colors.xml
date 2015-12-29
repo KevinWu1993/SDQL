@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#00BCD4</color>
+    <color name="colorPrimaryDark">#0097A7</color>
+    <color name="colorAccent">#FFEB3B</color>
+
+
+    <color name="lobtc">#00BCD4</color>
+    <color name="mb">#6149ff</color>
+    <color name="mbdark">#4433b2</color>
+    <color name="toolBar_color">#00000000</color>
+
+
+
+    <color name="colorMain">#00bcd4</color>
+    <color name="colorMain2">#0277bd</color>
+    <color name="colorMainDark">#01579b</color>
+    <color name="colorMainAccent">#55000000</color>
+    <color name="colorMainText">#ffffff</color>
+    <color name="colorMainBg">#FAFAFA</color>
+    <color name="mb_white">#ffffff</color>
+    <color name="mb_blue">#ff0099cc</color>
+    <color name="mb_blue_dark">#ff00719b</color>
+    <color name="mb_purple">#ffaa66cc</color>
+    <color name="mb_purple_dark">#ff8855aa</color>
+    <color name="mb_green">#ff99cc00</color>
+    <color name="mb_green_dark">#ff6d9b00</color>
+    <color name="mb_red">#ffff4444</color>
+    <color name="mb_red_dark">#ffcd3a3a</color>
+    <color name="mb_gray">#ffdedede</color>
+
+    <color name="holo_blue_bright">#ff00ddff</color>
+    <color name="holo_green_light">#ff99cc00</color>
+    <color name="holo_orange_light">#ffffbb33</color>
+    <color name="holo_red_light">#ffff4444</color>
+
+</resources>

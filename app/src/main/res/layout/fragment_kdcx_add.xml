@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/material_card2"
+    android:orientation="vertical"
+    android:theme="@style/AppTheme">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="快递公司："
+        android:textColor="#fff"
+        android:textSize="22sp" />
+
+    <org.angmarch.views.NiceSpinner
+        android:id="@+id/ex_list"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:textColor="#000"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="快递单号："
+        android:textColor="#fff"
+        android:textSize="22sp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:id="@+id/ex_num"
+        android:background="@drawable/material_card"
+        android:hint="在此填入单号"
+        android:paddingLeft="20dp"
+        android:textColor="#000"
+        android:textColorHint="#33333333" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="备注信息："
+        android:textColor="#fff"
+        android:textSize="22sp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:id="@+id/ex_remark"
+        android:background="@drawable/material_card"
+        android:hint="在此填入备注信息"
+        android:paddingLeft="20dp"
+        android:textColor="#000"
+        android:textColorHint="#33333333" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:gravity="center">
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:src="@drawable/ic_done_black_48dp"
+            app:elevation="0dp"
+            android:id="@+id/ex_done"
+            app:fabSize="normal"></android.support.design.widget.FloatingActionButton>
+    </LinearLayout>
+
+
+</LinearLayout>

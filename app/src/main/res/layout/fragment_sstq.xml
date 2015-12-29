@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tq"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <!--android:background="@drawable/wednesday"-->
+    <!--<android.support.v4.widget.SwipeRefreshLayout-->
+    <!--android:id="@+id/swiperefresh"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+
+
+
+        <RelativeLayout
+            android:id="@+id/wcontent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/wtoday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#00000000"
+                    android:orientation="vertical">
+
+                    <!--     <TextView
+                             android:id="@+id/tvtitle"
+                             android:layout_margin="20dp"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_gravity="center_horizontal"
+                             android:text="实时师大"
+                             android:textColor="#333"
+                             android:textSize="45sp" />-->
+
+
+                    <TextView
+                        android:id="@+id/wgaisu"
+                        android:layout_width="fill_parent"
+                        android:layout_height="250dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:gravity="center"
+                        android:text="-"
+                        android:textColor="#AAffffff"
+                        android:textSize="210sp" />
+
+                    <LinearLayout
+                        android:id="@+id/wave_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <!--<TextView-->
+                            <!--android:id="@+id/wdetail"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_gravity="center_horizontal"-->
+                            <!--android:layout_marginTop="2dp"-->
+                            <!--android:text="晴空万里"-->
+                            <!--android:textColor="#fff"-->
+                            <!--android:textSize="20sp" />-->
+                        <TextView
+                            android:id="@+id/wtiganwendu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="2dp"
+                            android:text="--"
+                            android:textStyle="bold"
+                            android:textColor="#fff"
+                            android:textSize="65sp" />
+                        <TextView
+                            android:id="@+id/wwendu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="10dp"
+                            android:text="未更新数据，请手动刷新"
+                            android:textColor="#fff"
+                            android:textSize="20sp" />
+
+
+
+                        <TextView
+                            android:id="@+id/wrefreshtime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:text="--"
+                            android:textColor="#33ffffff"
+                            android:textSize="15sp" />
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/btshare"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_marginRight="14dp"
+                                android:background="@drawable/ic_share_white" />
+
+                            <ImageView
+                                android:id="@+id/btrefresh"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_marginLeft="14dp"
+                                android:layout_marginRight="14dp"
+                                android:background="@drawable/ic_refresh_white" />
+
+                            <ImageView
+                                android:id="@+id/btmore"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_marginLeft="14dp"
+                                android:background="@drawable/ic_more_white" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </RelativeLayout>
+    <!--</android.support.v4.widget.SwipeRefreshLayout>-->
+</FrameLayout>
