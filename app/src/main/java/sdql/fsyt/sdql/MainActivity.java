@@ -30,6 +30,7 @@ import sdql.fsyt.sdql.fragment.Kdcx;
 import sdql.fsyt.sdql.fragment.Ksap;
 import sdql.fsyt.sdql.fragment.Sdyw;
 import sdql.fsyt.sdql.fragment.Sstq;
+import sdql.fsyt.sdql.fragment.Wdkb;
 import sdql.fsyt.sdql.fragment.Xydt;
 import sdql.fsyt.sdql.uiToolkit.CircleTransformation;
 import sdql.fsyt.sdql.windowThemeActivity.ReadNew;
@@ -129,6 +130,10 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_content,new Kdcx())
             .commit();
         }
+        else if(id==R.id.menu_wdkb){
+            toolbar.setTitle("我的课表");
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_content,new Wdkb()).commit();
+        }
         else if(id==R.id.menu_sdyw){
             //先跳转过去测试用
 //            Intent intent=new Intent();
@@ -180,14 +185,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface arg0, int i) {
                 // TODO Auto-generated method stub
-                DBHelper mDBHelper = null;//声明DBHelper类
-                mDBHelper = new DBHelper(MainActivity.this);
                 boolean isdone = true;
-//                SQLiteDatabase database=mDBHelper.getWritableDatabase();
-//                database.execSQL("");
-                //mDBHelper.deleteDatabase(ma);
-                MainActivity.this.deleteDatabase("SDQL.db");
-                if (isdone == true) {
+                isdone=MainActivity.this.deleteDatabase("SDQL.db");
+                if (isdone ) {
                     SharedPreferences sp =getSharedPreferences("UserInfo", 0);
                     SharedPreferences sp2 = getSharedPreferences("TermInfo", 0);
                     SharedPreferences.Editor ed = sp.edit();

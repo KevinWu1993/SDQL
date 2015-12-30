@@ -38,7 +38,7 @@ import sdql.fsyt.sdql.timeline.DateText;
 
 /**
  * Created by KevinWu on 2015/12/22.
- * 快递的信息展示类，作为弹窗的activity出现
+ * 快递的信息展示类，（本来打算）作为弹窗的activity出现
  */
 public class ExpressInfo extends AppCompatActivity{
     Toolbar toolbar;

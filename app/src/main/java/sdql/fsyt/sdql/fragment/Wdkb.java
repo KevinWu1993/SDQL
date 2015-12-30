@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,16 +55,13 @@ import sdql.fsyt.sdql.utils.GetTime;
 public class Wdkb extends Fragment {
     DBHelper mDBHelper = null;//声明DBHelper类
     SQLiteDatabase mSQLiteDatabase = null;
-    TextView todayWeather,todayTemp;
-    ImageView wicon;
     String specialInfo, specialCookie, stuName;
     String value;
     String term;
     DefaultHttpClient client;
-    private List<Course> c = new ArrayList<Course>();
+    private List<Course> c = new ArrayList<>();
     private RecyclerView recyclerView;
     private Context context;
-    ImageButton btnMenu;//左上角菜单按钮
     int weeka = 100;
     GetTime gt;
     View view;
@@ -73,7 +71,6 @@ public class Wdkb extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_wdkb, container, false);
         context = container.getContext();
-        btnMenu = (ImageButton) view.findViewById(R.id.btn_menu);
         NiceSpinner niceSpinner = (NiceSpinner) view.findViewById(R.id.nice_spinner);
         ArrayList<String> dataset = new ArrayList<>(Arrays.asList("星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"));
         gt = new GetTime();
@@ -86,7 +83,7 @@ public class Wdkb extends Fragment {
 
         SharedPreferences sp = context.getSharedPreferences("UserInfo", 0);
         boolean isFirst = sp.getBoolean("isFirst", true);
-        if (isFirst == true) {
+        if (isFirst ) {
             SharedPreferences sp2 =context.getSharedPreferences("TermInfo", 0);
             term=sp2.getString("Term","2015/9/1+0:00:00");
             client = new DefaultHttpClient();
@@ -121,15 +118,18 @@ public class Wdkb extends Fragment {
                         "JwOAUserSettingNew=" + specialInfo);
                 try {
 
-                    List<NameValuePair> params = new ArrayList<NameValuePair>();
+                    List<NameValuePair> params = new ArrayList<>();
                     params.add(new BasicNameValuePair("__EVENTTARGET", ""));
                     params.add(new BasicNameValuePair("__EVENTARGUMENT", ""));
-                    params.add(new BasicNameValuePair("__VIEWSTATE", "/wEPDwUJNzIzMTk0NzYzD2QWAgIBD2QWCgIBDw8WAh4EVGV4dAUhMjAxNeW5tDEx5pyIMTTml6Ug5pif5pyf5YWtJm5ic3A7ZGQCBQ8PFgIfAAUY5b2T5YmN5L2N572u77ya6K++56iL6KGoZGQCBw8PFgIfAAUtICAg5qyi6L+O5oKo77yMKDEzMDgwOTUwNzgsU3R1ZGVudCkg5ZC05ZCv5LicZGQCCg9kFgQCAQ8PFgIeCEltYWdlVXJsBUMuLi9NeUNvbnRyb2wvQWxsX1Bob3RvU2hvdy5hc3B4P1VzZXJOdW09MTMwODA5NTA3OCZVc2VyVHlwZT1TdHVkZW50ZGQCAw8WAh8ABaMkPGRpdiBpZD0nbWVudVBhcmVudF8wJyBjbGFzcz0nbWVudVBhcmVudCcgb25jbGljaz0nbWVudUdyb3VwU3dpdGNoKDApOyc+5oiR55qE5L+h5oGvPC9kaXY+PGRpdiBpZD0nbWVudUdyb3VwMCcgY2xhc3M9J21lbnVHcm91cCc+PERpdiBjbGFzcz0nbWVudUl0ZW1PbicgdGl0bGU9J+ivvueoi+ihqCc+PGEgaHJlZj0iZGVmYXVsdC5hc3B4PyZjb2RlPTExMSYmdWN0bD1NeUNvbnRyb2xceGZ6X2tjYi5hc2N4Jk15QWN0aW9uPVBlcnNvbmFsIiB0YXJnZXQ9J3BhcmVudCc+6K++56iL6KGoPC9hPjwvZGl2PjxEaXYgY2xhc3M9J21lbnVJdGVtJyB0aXRsZT0n5Z+65pys5L+h5oGvJz48YSBocmVmPSIuLlxNeUNvbnRyb2xcU3R1ZGVudF9JbmZvckNoZWNrLmFzcHgiIHRhcmdldD0nX2JsYW5rJz7ln7rmnKzkv6Hmga88L2E+PC9kaXY+PERpdiBjbGFzcz0nbWVudUl0ZW0nIHRpdGxlPSfkv67mlLnlr4bnoIEnPjxhIGhyZWY9ImRlZmF1bHQuYXNweD8mY29kZT0xMTAmJnVjdGw9TXlDb250cm9sXHBlcnNvbmFsX2NoYW5nZXB3ZC5hc2N4IiB0YXJnZXQ9J3BhcmVudCc+5L+u5pS55a+G56CBPC9hPjwvZGl2PjxEaXYgY2xhc3M9J21lbnVJdGVtJyB0aXRsZT0n5a2m57GN6aKE6K2mJz48YSBocmVmPSJqYXZhc2NyaXB0Ok9wZW5XaW5kb3coJ3hmel9ieXNoLmFzY3gmQWN0aW9uPVBlcnNvbmFsJyk7IiB0YXJnZXQ9Jyc+5a2m57GN6aKE6K2mPC9hPjwvZGl2PjxEaXYgY2xhc3M9J21lbnVJdGVtJyB0aXRsZT0n5paw55Sf5a+85biIJz48YSBocmVmPSJkZWZhdWx0LmFzcHg/JmNvZGU9MjE0JiZ1Y3RsPU15Q29udHJvbFxzdHVkZW50X215dGVhY2hlci5hc2N4IiB0YXJnZXQ9J3BhcmVudCc+5paw55Sf5a+85biIPC9hPjwvZGl2PjxEaXYgY2xhc3M9J21lbnVJdGVtJyB0aXRsZT0n6K++56iL5oiQ57upJz48YSBocmVmPSJqYXZhc2NyaXB0Ok9wZW5XaW5kb3coJ3hmel9jai5hc2N4JkFjdGlvbj1QZXJzb25hbCcpOyIgdGFyZ2V0PScnPuivvueoi+aIkOe7qTwvYT48L2Rpdj48RGl2IGNsYXNzPSdtZW51SXRlbScgdGl0bGU9J+aJi+acuuWPt+eggSc+PGEgaHJlZj0iLi5cTXlDb250cm9sXFBob25lLmFzcHgiIHRhcmdldD0nX2JsYW5rJz7miYvmnLrlj7fnoIE8L2E+PC9kaXY+PERpdiBjbGFzcz0nbWVudUl0ZW0nIHRpdGxlPSflrrbplb/nmbvlvZUnPjxhIGhyZWY9ImRlZmF1bHQuYXNweD8mY29kZT0yMDMmJnVjdGw9TXlDb250cm9sXEp6X3N0dWRlbnRzZXR0aW5nLmFzY3giIHRhcmdldD0ncGFyZW50Jz7lrrbplb/nmbvlvZU8L2E+PC9kaXY+PERpdiBjbGFzcz0nbWVudUl0ZW0nIHRpdGxlPSflj4zkuJPkuJrlj4zlrabkvY3or77nqIvlronmjpLooagnPjxhIGhyZWY9Ii4uXE15Q29udHJvbFxEZXp5X2tiLmFzcHgiIHRhcmdldD0nX2JsYW5rJz7lj4zkuJPkuJrlj4zlrabkvY3or77nqIvlronmjpLooag8L2E+PC9kaXY+PC9kaXY+PGRpdiBpZD0nbWVudVBhcmVudF8xJyBjbGFzcz0nbWVudVBhcmVudCcgb25jbGljaz0nbWVudUdyb3VwU3dpdGNoKDEpOyc+5q2j5aSn5b6u6K++PC9kaXY+PGRpdiBpZD0nbWVudUdyb3VwMScgY2xhc3M9J21lbnVHcm91cCc+PERpdiBjbGFzcz0nbWVudUl0ZW0nIHRpdGxlPSfnlLPor7fogIPor5UnPjxhIGhyZWY9ImRlZmF1bHQuYXNweD8mY29kZT0yMDcmJnVjdGw9TXlDb250cm9sXFdLX1BhcGVyTGlzdC5hc2N4IiB0YXJnZXQ9J3BhcmVudCc+55Sz6K+36ICD6K+VPC9hPjwvZGl2PjwvZGl2PjxkaXYgaWQ9J21lbnVQYXJlbnRfMicgY2xhc3M9J21lbnVQYXJlbnQnIG9uY2xpY2s9J21lbnVHcm91cFN3aXRjaCgyKTsnPuWFrOWFseacjeWKoTwvZGl2PjxkaXYgaWQ9J21lbnVHcm91cDInIGNsYXNzPSdtZW51R3JvdXAnPjxEaXYgY2xhc3M9J21lbnVJdGVtJyB0aXRsZT0n5Z+55YW75pa55qGIJz48YSBocmVmPSJkZWZhdWx0LmFzcHg/JmNvZGU9MTA0JiZ1Y3RsPU15Q29udHJvbFxhbGxfanhqaC5hc2N4IiB0YXJnZXQ9J3BhcmVudCc+5Z+55YW75pa55qGIPC9hPjwvZGl2PjxEaXYgY2xhc3M9J21lbnVJdGVtJyB0aXRsZT0n6K++56iL5L+h5oGvJz48YSBocmVmPSJkZWZhdWx0LmFzcHg/JmNvZGU9MTE2JiZ1Y3RsPU15Q29udHJvbFxhbGxfY291cnNlc2VhcmNoLmFzY3giIHRhcmdldD0ncGFyZW50Jz7or77nqIvkv6Hmga88L2E+PC9kaXY+PERpdiBjbGFzcz0nbWVudUl0ZW0nIHRpdGxlPSflvIDor77lronmjpInPjxhIGhyZWY9Ii4uXE15Q29udHJvbFxQdWJsaWNfS2thcC5hc3B4IiB0YXJnZXQ9J19ibGFuayc+5byA6K++5a6J5o6SPC9hPjwvZGl2PjxEaXYgY2xhc3M9J21lbnVJdGVtJyB0aXRsZT0n5a2m55Sf5L+h5oGvJz48YSBocmVmPSJkZWZhdWx0LmFzcHg/JmNvZGU9MTE5JiZ1Y3RsPU15Q29udHJvbFxhbGxfc2VhcmNoc3R1ZGVudC5hc2N4IiB0YXJnZXQ9J3BhcmVudCc+5a2m55Sf5L+h5oGvPC9hPjwvZGl2PjxEaXYgY2xhc3M9J21lbnVJdGVtJyB0aXRsZT0n5pWZ5bel5L+h5oGvJz48YSBocmVmPSJkZWZhdWx0LmFzcHg/JmNvZGU9MTIwJiZ1Y3RsPU15Q29udHJvbFxhbGxfdGVhY2hlci5hc2N4IiB0YXJnZXQ9J3BhcmVudCc+5pWZ5bel5L+h5oGvPC9hPjwvZGl2PjxEaXYgY2xhc3M9J21lbnVJdGVtJyB0aXRsZT0n55+t5L+h5bmz5Y+wJz48YSBocmVmPSJkZWZhdWx0LmFzcHg/JmNvZGU9MTIyJiZ1Y3RsPU15Q29udHJvbFxtYWlsX2xpc3QuYXNjeCIgdGFyZ2V0PSdwYXJlbnQnPuefreS/oeW5s+WPsDwvYT48L2Rpdj48RGl2IGNsYXNzPSdtZW51SXRlbScgdGl0bGU9J+aVmeWupOaVmeWtpuWuieaOkic+PGEgaHJlZj0iLi5cTXlDb250cm9sXHB1YmxpY19jbGFzc3Jvb20uYXNweCIgdGFyZ2V0PSdfYmxhbmsnPuaVmeWupOaVmeWtpuWuieaOkjwvYT48L2Rpdj48RGl2IGNsYXNzPSdtZW51SXRlbScgdGl0bGU9J+WPjOWtpuS9jeivvueoi+aIkOe7qSc+PGEgaHJlZj0iamF2YXNjcmlwdDpPcGVuV2luZG93KCdkZXp5X2NqLmFzY3gmQWN0aW9uPVBlcnNvbmFsJyk7IiB0YXJnZXQ9Jyc+5Y+M5a2m5L2N6K++56iL5oiQ57upPC9hPjwvZGl2PjxEaXYgY2xhc3M9J21lbnVJdGVtJyB0aXRsZT0n5q+V5Lia55Sf5Zu+5YOP6YeH6ZuG5L+h5oGv5qCh5a+5Jz48YSBocmVmPSIuLlxNeUNvbnRyb2xcVFhDSl9JbmZvckNoZWNrLmFzcHgiIHRhcmdldD0nX2JsYW5rJz7mr5XkuJrnlJ/lm77lg4/ph4fpm4bkv6Hmga/moKHlr7k8L2E+PC9kaXY+PERpdiBjbGFzcz0nbWVudUl0ZW0nIHRpdGxlPSfmnJ/mnKvmiJDnu6nmn6Xor6InPjxhIGhyZWY9ImphdmFzY3JpcHQ6T3BlbldpbmRvdygneGZ6X1Rlc3RfY2ouYXNjeCcpOyIgdGFyZ2V0PScnPuacn+acq+aIkOe7qeafpeivojwvYT48L2Rpdj48RGl2IGNsYXNzPSdtZW51SXRlbScgdGl0bGU9J+acn+acq+aIkOe7qeafpeWIhueUs+ivtyc+PGEgaHJlZj0iamF2YXNjcmlwdDpPcGVuV2luZG93KCdDZnNxX1N0dWRlbnQuYXNjeCcpOyIgdGFyZ2V0PScnPuacn+acq+aIkOe7qeafpeWIhueUs+ivtzwvYT48L2Rpdj48RGl2IGNsYXNzPSdtZW51SXRlbScgdGl0bGU9J+ihpee8k+iAg+WuieaOkic+PGEgaHJlZj0iamF2YXNjcmlwdDpPcGVuV2luZG93KCd4ZnpfVGVzdF9CSEsuYXNjeCcpOyIgdGFyZ2V0PScnPuihpee8k+iAg+WuieaOkjwvYT48L2Rpdj48RGl2IGNsYXNzPSdtZW51SXRlbScgdGl0bGU9J+WtpuS5oOmXruetlCc+PGEgaHJlZj0iZGVmYXVsdC5hc3B4PyZjb2RlPTE1OSYmdWN0bD1NeUNvbnRyb2xcQWxsX1N0dWR5X0xpc3QuYXNjeCIgdGFyZ2V0PSdwYXJlbnQnPuWtpuS5oOmXruetlDwvYT48L2Rpdj48L2Rpdj48ZGl2IGlkPSdtZW51UGFyZW50XzMnIGNsYXNzPSdtZW51UGFyZW50JyBvbmNsaWNrPSdtZW51R3JvdXBTd2l0Y2goMyk7Jz7mlZnlrabkv6Hmga88L2Rpdj48ZGl2IGlkPSdtZW51R3JvdXAzJyBjbGFzcz0nbWVudUdyb3VwJz48RGl2IGNsYXNzPSdtZW51SXRlbScgdGl0bGU9J+e9keS4iuivhOaVmSc+PGEgaHJlZj0iamF2YXNjcmlwdDpPcGVuV2luZG93KCdwal9zdHVkZW50X2luZGV4LmFzY3gnKTsiIHRhcmdldD0nJz7nvZHkuIror4TmlZk8L2E+PC9kaXY+PERpdiBjbGFzcz0nbWVudUl0ZW0nIHRpdGxlPSfmlZnliqHmhI/op4HnrrEnPjxhIGhyZWY9Ii4uL0RlZmF1bHQuYXNweD9BY3Rpb249QWR2aXNlIiB0YXJnZXQ9J19ibGFuayc+5pWZ5Yqh5oSP6KeB566xPC9hPjwvZGl2PjxEaXYgY2xhc3M9J21lbnVJdGVtJyB0aXRsZT0n5pyf5pyr6ICD6K+V5a6J5o6SJz48YSBocmVmPSJkZWZhdWx0LmFzcHg/JmNvZGU9MTI5JiZ1Y3RsPU15Q29udHJvbFx4ZnpfdGVzdF9zY2hlZHVsZS5hc2N4IiB0YXJnZXQ9J3BhcmVudCc+5pyf5pyr6ICD6K+V5a6J5o6SPC9hPjwvZGl2PjxEaXYgY2xhc3M9J21lbnVJdGVtJyB0aXRsZT0n6L6F5L+u5Y+M5LiT5Lia5Y+M5a2m5L2N5oql5ZCNJz48YSBocmVmPSJqYXZhc2NyaXB0Ok9wZW5XaW5kb3coJ0RlenlfYm0uYXNjeCcpOyIgdGFyZ2V0PScnPui+heS/ruWPjOS4k+S4muWPjOWtpuS9jeaKpeWQjTwvYT48L2Rpdj48RGl2IGNsYXNzPSdtZW51SXRlbScgdGl0bGU9JzIwMTTnuqfmnKznp5HlrabnlJ/ovazkuJPkuJrmiqXlkI0nPjxhIGhyZWY9Ii4uXE15Q29udHJvbFx6enlfc3R1ZGVudF9zcS5hc3B4IiB0YXJnZXQ9J19ibGFuayc+MjAxNOe6p+acrOenkeWtpueUn+i9rOS4k+S4muaKpeWQjTwvYT48L2Rpdj48L2Rpdj5kAgwPZBYCZg9kFgwCAQ8PFgIfAAUe5rGf6KW/5biI6IyD5aSn5a2m5a2m55Sf6K++6KGoZGQCAw8PFgIfAAVn54+t57qn5ZCN56ew77yaPFU+MTPnuqfnianogZTnvZEy54+tPC9VPuOAgOOAgOWtpuWPt++8mjxVPjEzMDgwOTUwNzg8L3U+44CA44CA5aeT5ZCN77yaPHU+5ZC05ZCv5LicPC91PmRkAgUPEA8WBh4NRGF0YVRleHRGaWVsZAUM5a2m5pyf5ZCN56ewHg5EYXRhVmFsdWVGaWVsZAUM5byA5a2m5pel5pyfHgtfIURhdGFCb3VuZGdkEBUIDzE1LTE256ysMuWtpuacnw8xNS0xNuesrDHlrabmnJ8PMTQtMTXnrKwy5a2m5pyfDzE0LTE156ysMeWtpuacnw8xMy0xNOesrDLlrabmnJ8PMTMtMTTnrKwx5a2m5pyfDzEyLTEz56ysMuWtpuacnw8xMi0xM+esrDHlrabmnJ8VCBAyMDE2LzMvMSAwOjAwOjAwEDIwMTUvOS8xIDA6MDA6MDAQMjAxNS8zLzEgMDowMDowMBAyMDE0LzkvMSAwOjAwOjAwEDIwMTQvMy8xIDA6MDA6MDAQMjAxMy85LzEgMDowMDowMBAyMDEzLzMvMSAwOjAwOjAwEDIwMTIvOS8xIDA6MDA6MDAUKwMIZ2dnZ2dnZ2dkZAIJDw8WAh4HVmlzaWJsZWhkZAIKDzwrAAsBAA8WCB4IRGF0YUtleXMWAB4LXyFJdGVtQ291bnQC/////w8eFV8hRGF0YVNvdXJjZUl0ZW1Db3VudAL/////Dx4JUGFnZUNvdW50ZmRkAgsPPCsACwEADxYIHwYWAB8HAv////8PHwgC/////w8fCWZkZGQNFUutR1Pgx2qwqZJsZH2AqUV/0Ruk+5OOoJNXvbfpbA=="));
-                    params.add(new BasicNameValuePair("__EVENTVALIDATION", "/wEWCwLKg8QGAoqG5b0BAv2D45ICAt6Dj4cJAv2D97IHAsi26eQPAu+20ZANAsi2/QQC77blsA4Chpn9sgEC5uGKM/LjAPhoFI4PKgkE+GHx+7WMoWSvxX2zg11LMF+sPypa"));
+                    params.add(new BasicNameValuePair("__VIEWSTATE", "/wEPDwUJNzIzMTk0NzYzD2QWAgIBD2QWCgIBDw8WAh4EVGV4dAUhMjAxNeW5tDEy5pyIMzDml6Ug5pif5pyf5LiJJm5ic3A7ZGQCBQ8PFgIfAAUY5b2T5YmN5L2N572u77ya6K++56iL6KGoZGQCBw8PFgIfAAUtICAg5qyi6L+O5oKo77yMKDEzMDgwOTUwNzgsU3R1ZGVudCkg5ZC05ZCv5LicZGQCCg9kFgQCAQ8PFgIeCEltYWdlVXJsBUMuLi9NeUNvbnRyb2wvQWxsX1Bob3RvU2hvdy5hc3B4P1VzZXJOdW09MTMwODA5NTA3OCZVc2VyVHlwZT1TdHVkZW50ZGQCAw8WAh8ABYgiPGRpdiBpZD0nbWVudVBhcmVudF8wJyBjbGFzcz0nbWVudVBhcmVudCcgb25jbGljaz0nbWVudUdyb3VwU3dpdGNoKDApOyc+5oiR55qE5L+h5oGvPC9kaXY+PGRpdiBpZD0nbWVudUdyb3VwMCcgY2xhc3M9J21lbnVHcm91cCc+PERpdiBjbGFzcz0nbWVudUl0ZW1PbicgdGl0bGU9J+ivvueoi+ihqCc+PGEgaHJlZj0iZGVmYXVsdC5hc3B4PyZjb2RlPTExMSYmdWN0bD1NeUNvbnRyb2xceGZ6X2tjYi5hc2N4Jk15QWN0aW9uPVBlcnNvbmFsIiB0YXJnZXQ9J3BhcmVudCc+6K++56iL6KGoPC9hPjwvZGl2PjxEaXYgY2xhc3M9J21lbnVJdGVtJyB0aXRsZT0n5Z+65pys5L+h5oGvJz48YSBocmVmPSIuLlxNeUNvbnRyb2xcU3R1ZGVudF9JbmZvckNoZWNrLmFzcHgiIHRhcmdldD0nX2JsYW5rJz7ln7rmnKzkv6Hmga88L2E+PC9kaXY+PERpdiBjbGFzcz0nbWVudUl0ZW0nIHRpdGxlPSfkv67mlLnlr4bnoIEnPjxhIGhyZWY9ImRlZmF1bHQuYXNweD8mY29kZT0xMTAmJnVjdGw9TXlDb250cm9sXHBlcnNvbmFsX2NoYW5nZXB3ZC5hc2N4IiB0YXJnZXQ9J3BhcmVudCc+5L+u5pS55a+G56CBPC9hPjwvZGl2PjxEaXYgY2xhc3M9J21lbnVJdGVtJyB0aXRsZT0n5a2m57GN6aKE6K2mJz48YSBocmVmPSJqYXZhc2NyaXB0Ok9wZW5XaW5kb3coJ3hmel9ieXNoLmFzY3gmQWN0aW9uPVBlcnNvbmFsJyk7IiB0YXJnZXQ9Jyc+5a2m57GN6aKE6K2mPC9hPjwvZGl2PjxEaXYgY2xhc3M9J21lbnVJdGVtJyB0aXRsZT0n5paw55Sf5a+85biIJz48YSBocmVmPSJkZWZhdWx0LmFzcHg/JmNvZGU9MjE0JiZ1Y3RsPU15Q29udHJvbFxzdHVkZW50X215dGVhY2hlci5hc2N4IiB0YXJnZXQ9J3BhcmVudCc+5paw55Sf5a+85biIPC9hPjwvZGl2PjxEaXYgY2xhc3M9J21lbnVJdGVtJyB0aXRsZT0n6K++56iL5oiQ57upJz48YSBocmVmPSJqYXZhc2NyaXB0Ok9wZW5XaW5kb3coJ3hmel9jai5hc2N4JkFjdGlvbj1QZXJzb25hbCcpOyIgdGFyZ2V0PScnPuivvueoi+aIkOe7qTwvYT48L2Rpdj48RGl2IGNsYXNzPSdtZW51SXRlbScgdGl0bGU9J+aJi+acuuWPt+eggSc+PGEgaHJlZj0iLi5cTXlDb250cm9sXFBob25lLmFzcHgiIHRhcmdldD0nX2JsYW5rJz7miYvmnLrlj7fnoIE8L2E+PC9kaXY+PERpdiBjbGFzcz0nbWVudUl0ZW0nIHRpdGxlPSflrrbplb/nmbvlvZUnPjxhIGhyZWY9ImRlZmF1bHQuYXNweD8mY29kZT0yMDMmJnVjdGw9TXlDb250cm9sXEp6X3N0dWRlbnRzZXR0aW5nLmFzY3giIHRhcmdldD0ncGFyZW50Jz7lrrbplb/nmbvlvZU8L2E+PC9kaXY+PERpdiBjbGFzcz0nbWVudUl0ZW0nIHRpdGxlPSflj4zkuJPkuJrlj4zlrabkvY3or77nqIvlronmjpLooagnPjxhIGhyZWY9Ii4uXE15Q29udHJvbFxEZXp5X2tiLmFzcHgiIHRhcmdldD0nX2JsYW5rJz7lj4zkuJPkuJrlj4zlrabkvY3or77nqIvlronmjpLooag8L2E+PC9kaXY+PC9kaXY+PGRpdiBpZD0nbWVudVBhcmVudF8xJyBjbGFzcz0nbWVudVBhcmVudCcgb25jbGljaz0nbWVudUdyb3VwU3dpdGNoKDEpOyc+5YWs5YWx5pyN5YqhPC9kaXY+PGRpdiBpZD0nbWVudUdyb3VwMScgY2xhc3M9J21lbnVHcm91cCc+PERpdiBjbGFzcz0nbWVudUl0ZW0nIHRpdGxlPSfln7nlhbvmlrnmoYgnPjxhIGhyZWY9ImRlZmF1bHQuYXNweD8mY29kZT0xMDQmJnVjdGw9TXlDb250cm9sXGFsbF9qeGpoLmFzY3giIHRhcmdldD0ncGFyZW50Jz7ln7nlhbvmlrnmoYg8L2E+PC9kaXY+PERpdiBjbGFzcz0nbWVudUl0ZW0nIHRpdGxlPSfor77nqIvkv6Hmga8nPjxhIGhyZWY9ImRlZmF1bHQuYXNweD8mY29kZT0xMTYmJnVjdGw9TXlDb250cm9sXGFsbF9jb3Vyc2VzZWFyY2guYXNjeCIgdGFyZ2V0PSdwYXJlbnQnPuivvueoi+S/oeaBrzwvYT48L2Rpdj48RGl2IGNsYXNzPSdtZW51SXRlbScgdGl0bGU9J+W8gOivvuWuieaOkic+PGEgaHJlZj0iLi5cTXlDb250cm9sXFB1YmxpY19La2FwLmFzcHgiIHRhcmdldD0nX2JsYW5rJz7lvIDor77lronmjpI8L2E+PC9kaXY+PERpdiBjbGFzcz0nbWVudUl0ZW0nIHRpdGxlPSflrabnlJ/kv6Hmga8nPjxhIGhyZWY9ImRlZmF1bHQuYXNweD8mY29kZT0xMTkmJnVjdGw9TXlDb250cm9sXGFsbF9zZWFyY2hzdHVkZW50LmFzY3giIHRhcmdldD0ncGFyZW50Jz7lrabnlJ/kv6Hmga88L2E+PC9kaXY+PERpdiBjbGFzcz0nbWVudUl0ZW0nIHRpdGxlPSfmlZnlt6Xkv6Hmga8nPjxhIGhyZWY9ImRlZmF1bHQuYXNweD8mY29kZT0xMjAmJnVjdGw9TXlDb250cm9sXGFsbF90ZWFjaGVyLmFzY3giIHRhcmdldD0ncGFyZW50Jz7mlZnlt6Xkv6Hmga88L2E+PC9kaXY+PERpdiBjbGFzcz0nbWVudUl0ZW0nIHRpdGxlPSfnn63kv6HlubPlj7AnPjxhIGhyZWY9ImRlZmF1bHQuYXNweD8mY29kZT0xMjImJnVjdGw9TXlDb250cm9sXG1haWxfbGlzdC5hc2N4IiB0YXJnZXQ9J3BhcmVudCc+55+t5L+h5bmz5Y+wPC9hPjwvZGl2PjxEaXYgY2xhc3M9J21lbnVJdGVtJyB0aXRsZT0n5pWZ5a6k5pWZ5a2m5a6J5o6SJz48YSBocmVmPSIuLlxNeUNvbnRyb2xccHVibGljX2NsYXNzcm9vbS5hc3B4IiB0YXJnZXQ9J19ibGFuayc+5pWZ5a6k5pWZ5a2m5a6J5o6SPC9hPjwvZGl2PjxEaXYgY2xhc3M9J21lbnVJdGVtJyB0aXRsZT0n5Y+M5a2m5L2N6K++56iL5oiQ57upJz48YSBocmVmPSJqYXZhc2NyaXB0Ok9wZW5XaW5kb3coJ2RlenlfY2ouYXNjeCZBY3Rpb249UGVyc29uYWwnKTsiIHRhcmdldD0nJz7lj4zlrabkvY3or77nqIvmiJDnu6k8L2E+PC9kaXY+PERpdiBjbGFzcz0nbWVudUl0ZW0nIHRpdGxlPSfmr5XkuJrnlJ/lm77lg4/ph4fpm4bkv6Hmga/moKHlr7knPjxhIGhyZWY9Ii4uXE15Q29udHJvbFxUWENKX0luZm9yQ2hlY2suYXNweCIgdGFyZ2V0PSdfYmxhbmsnPuavleS4mueUn+WbvuWDj+mHh+mbhuS/oeaBr+agoeWvuTwvYT48L2Rpdj48RGl2IGNsYXNzPSdtZW51SXRlbScgdGl0bGU9J+acn+acq+aIkOe7qeafpeivoic+PGEgaHJlZj0iamF2YXNjcmlwdDpPcGVuV2luZG93KCd4ZnpfVGVzdF9jai5hc2N4Jyk7IiB0YXJnZXQ9Jyc+5pyf5pyr5oiQ57up5p+l6K+iPC9hPjwvZGl2PjxEaXYgY2xhc3M9J21lbnVJdGVtJyB0aXRsZT0n5pyf5pyr5oiQ57up5p+l5YiG55Sz6K+3Jz48YSBocmVmPSJqYXZhc2NyaXB0Ok9wZW5XaW5kb3coJ0Nmc3FfU3R1ZGVudC5hc2N4Jyk7IiB0YXJnZXQ9Jyc+5pyf5pyr5oiQ57up5p+l5YiG55Sz6K+3PC9hPjwvZGl2PjxEaXYgY2xhc3M9J21lbnVJdGVtJyB0aXRsZT0n6KGl57yT6ICD5a6J5o6SJz48YSBocmVmPSJqYXZhc2NyaXB0Ok9wZW5XaW5kb3coJ3hmel9UZXN0X0JISy5hc2N4Jyk7IiB0YXJnZXQ9Jyc+6KGl57yT6ICD5a6J5o6SPC9hPjwvZGl2PjxEaXYgY2xhc3M9J21lbnVJdGVtJyB0aXRsZT0n5a2m5Lmg6Zeu562UJz48YSBocmVmPSJkZWZhdWx0LmFzcHg/JmNvZGU9MTU5JiZ1Y3RsPU15Q29udHJvbFxBbGxfU3R1ZHlfTGlzdC5hc2N4IiB0YXJnZXQ9J3BhcmVudCc+5a2m5Lmg6Zeu562UPC9hPjwvZGl2PjwvZGl2PjxkaXYgaWQ9J21lbnVQYXJlbnRfMicgY2xhc3M9J21lbnVQYXJlbnQnIG9uY2xpY2s9J21lbnVHcm91cFN3aXRjaCgyKTsnPuaVmeWtpuS/oeaBrzwvZGl2PjxkaXYgaWQ9J21lbnVHcm91cDInIGNsYXNzPSdtZW51R3JvdXAnPjxEaXYgY2xhc3M9J21lbnVJdGVtJyB0aXRsZT0n572R5LiK6K+E5pWZJz48YSBocmVmPSJqYXZhc2NyaXB0Ok9wZW5XaW5kb3coJ3BqX3N0dWRlbnRfaW5kZXguYXNjeCcpOyIgdGFyZ2V0PScnPue9keS4iuivhOaVmTwvYT48L2Rpdj48RGl2IGNsYXNzPSdtZW51SXRlbScgdGl0bGU9J+aVmeWKoeaEj+ingeeusSc+PGEgaHJlZj0iLi4vRGVmYXVsdC5hc3B4P0FjdGlvbj1BZHZpc2UiIHRhcmdldD0nX2JsYW5rJz7mlZnliqHmhI/op4HnrrE8L2E+PC9kaXY+PERpdiBjbGFzcz0nbWVudUl0ZW0nIHRpdGxlPSfmnJ/mnKvogIPor5XlronmjpInPjxhIGhyZWY9ImRlZmF1bHQuYXNweD8mY29kZT0xMjkmJnVjdGw9TXlDb250cm9sXHhmel90ZXN0X3NjaGVkdWxlLmFzY3giIHRhcmdldD0ncGFyZW50Jz7mnJ/mnKvogIPor5XlronmjpI8L2E+PC9kaXY+PERpdiBjbGFzcz0nbWVudUl0ZW0nIHRpdGxlPSfovoXkv67lj4zkuJPkuJrlj4zlrabkvY3miqXlkI0nPjxhIGhyZWY9ImphdmFzY3JpcHQ6T3BlbldpbmRvdygnRGV6eV9ibS5hc2N4Jyk7IiB0YXJnZXQ9Jyc+6L6F5L+u5Y+M5LiT5Lia5Y+M5a2m5L2N5oql5ZCNPC9hPjwvZGl2PjxEaXYgY2xhc3M9J21lbnVJdGVtJyB0aXRsZT0nMjAxNOe6p+acrOenkeWtpueUn+i9rOS4k+S4muaKpeWQjSc+PGEgaHJlZj0iLi5cTXlDb250cm9sXHp6eV9zdHVkZW50X3NxLmFzcHgiIHRhcmdldD0nX2JsYW5rJz4yMDE057qn5pys56eR5a2m55Sf6L2s5LiT5Lia5oql5ZCNPC9hPjwvZGl2PjwvZGl2PmQCDA9kFgJmD2QWDAIBDw8WAh8ABR7msZ/opb/luIjojIPlpKflrablrabnlJ/or77ooahkZAIDDw8WAh8ABWfnj63nuqflkI3np7DvvJo8VT4xM+e6p+eJqeiBlOe9kTLnj608L1U+44CA44CA5a2m5Y+377yaPFU+MTMwODA5NTA3ODwvdT7jgIDjgIDlp5PlkI3vvJo8dT7lkLTlkK/kuJw8L3U+ZGQCBQ8QDxYGHg1EYXRhVGV4dEZpZWxkBQzlrabmnJ/lkI3np7AeDkRhdGFWYWx1ZUZpZWxkBQzlvIDlrabml6XmnJ8eC18hRGF0YUJvdW5kZ2QQFQgPMTUtMTbnrKwy5a2m5pyfDzE1LTE256ysMeWtpuacnw8xNC0xNeesrDLlrabmnJ8PMTQtMTXnrKwx5a2m5pyfDzEzLTE056ysMuWtpuacnw8xMy0xNOesrDHlrabmnJ8PMTItMTPnrKwy5a2m5pyfDzEyLTEz56ysMeWtpuacnxUIEDIwMTYvMy8xIDA6MDA6MDAQMjAxNS85LzEgMDowMDowMBAyMDE1LzMvMSAwOjAwOjAwEDIwMTQvOS8xIDA6MDA6MDAQMjAxNC8zLzEgMDowMDowMBAyMDEzLzkvMSAwOjAwOjAwEDIwMTMvMy8xIDA6MDA6MDAQMjAxMi85LzEgMDowMDowMBQrAwhnZ2dnZ2dnZ2RkAgkPDxYCHgdWaXNpYmxlaGRkAgoPPCsACwEADxYIHghEYXRhS2V5cxYAHgtfIUl0ZW1Db3VudAL/////Dx4VXyFEYXRhU291cmNlSXRlbUNvdW50Av////8PHglQYWdlQ291bnRmZGQCCw88KwALAQAPFggfBhYAHwcC/////w8fCAL/////Dx8JZmRkZCWPWDW7haR3T8v0xU8qJMsbZaYhbv5Cp4vFJQEfCz+q"));
+                    params.add(new BasicNameValuePair("__EVENTVALIDATION", "/wEWCwKawe6LBQKKhuW9AQL9g+OSAgLeg4+HCQL9g/eyBwLItunkDwLvttGQDQLItv0EAu+25bAOAoaZ/bIBAubhijNaX+epYcu/tWVjRlecuuYSkZV/ebZBr521n10tYIO+kg=="));
                     params.add(new BasicNameValuePair("_ctl1:ddlSterm",term));
-                    params.add(new BasicNameValuePair("_ctl1:btnSearch", "确定"));
+                    //params.add(new BasicNameValuePair("_ctl1:btnSearch", "确定"));
                     post.setEntity(new UrlEncodedFormEntity(params));
+
+                    Log.d("请求头的长度为：",""+post.getAllHeaders().length);
                 } catch (UnsupportedEncodingException e1) {
+
                 }
                 try {
                     HttpResponse response = client.execute(post);
@@ -178,93 +178,99 @@ public class Wdkb extends Fragment {
                     a = result.split("星期日");
                     String score[];
                     int i = 0, j = 0;
-                    String html = a[1];//这部分是解析课程表的内容，包括了后面的课程信息
-                    String htmlInfo[] = a[1].split("课表说明：底色为深色部分表示的是有冲突的课程！");
-                    Document doc = Jsoup.parse(html);   //把HTML代码加载到doc中，这部分是课程表
-                    Document docInfo = Jsoup.parse(htmlInfo[1]);//这部分是课程信息
-                    System.out.println(htmlInfo[1]);
-                    Elements classInfo = docInfo.select("font[color=#330099]");
-                    System.out.println(classInfo.toString());
-                    int count = 0;
-                    String keyValue[] = new String[]{
-                            "CourseID", "CourseName", "CourseWide", "CourseTeacher", "CourseNameListLink", "CourseForumLink"
-                    };
-                    ContentValues cv = new ContentValues();
-                    for (Element link_classInfo : classInfo) {
-                        //System.out.println(link_classInfo.toString());
-                        //System.out.println("每次循环"+link_classInfo.text());
-                        if ((count + 2) % 6 == 0 && count != 0) {
-                            //System.out.println("转化前"+link_classInfo.toString());
-                            //System.out.println(link_classInfo.text());
-                            String tempa[] = link_classInfo.toString().split("OpenWindow\\('");
-                            //System.out.println(tempa[0]);
-                            // System.out.println(link_classInfo.toString());
-                            String tempb[] = tempa[1].split("'\\);");
-                            cv.put(keyValue[4], tempb[0]);
-                        } else if ((count + 1) % 6 == 0 && count != 0) {
-                            // System.out.println("hou转化前"+link_classInfo.toString());
-                            String tempa[] = link_classInfo.toString().split("href=\"");
-                            String tempb[] = tempa[1].split("\">课程讨论区");
-                            cv.put(keyValue[5], tempb[0]);
-                            mSQLiteDatabase.insert("CourseInfo", null, cv);
-                            cv = new ContentValues();
-                        } else {
-                            cv.put(keyValue[count % 6], link_classInfo.text());
-                        }
-                        count++;
-                        //if(count>3)break;
-                    }
-
-                    Elements myClass = doc.select("DIV[align=center]");
-                    score = new String[myClass.size()];
-                    int pos = 1;
-                    String dayValue[] = new String[]{
-                            "OneTwo", "Three", "Four", "Five", "SixSeven", "EightNine", "Night"
-                    };
-                    for (Element link_class : myClass) {
-                        //如果当前解析到的数据无关，直接跳入下一次循环
-                        if (link_class.text().equals("1 2")
-                                || link_class.text().equals("3")
-                                || link_class.text().equals("3")
-                                || link_class.text().equals("4")
-                                || link_class.text().equals("5")
-                                || link_class.text().equals("6 7")
-                                || link_class.text().equals("8 9")
-                                || link_class.text().equals("中 午")
-                                || link_class.text().equals("下午")
-                                || link_class.text().equals("晚上")
-                                || link_class.text().equals("晚 上")) continue;
-                        score[i] = link_class.text();
-                        //System.out.println(score[i]);
-                        String temp[] = score[i].split("\\(");//面向对象程序设计
-                        if (temp.length > 1) {
-                            String temp2[] = temp[1].split("\\)");//W7202 ) 13级物联网2班
-                            value[pos - 1][(j / 7) + 2].put(dayValue[i / 7], temp[0] + "@" + temp2[0]);
-                        }
-                        pos++;
-                        if (pos == 8) {
-                            pos = 1;
-                        }
-                        // if(i==7)break;
-                        i++;
-                        j++;
-
-                    }
-                    for (int ii = 0; ii < value.length; ii++) {
-                        int aa = ii + 1;
-                        for (int jj = 1; jj < value[ii].length; jj++) {
-                            if (value[ii][jj].size() > 0) {
-                                System.out.println("执行" + aa);
-                                mSQLiteDatabase.update("CourseTable", value[ii][jj], "Week=?", new String[]{"" + aa});
+                    if(a.length>1) {
+                        String html = a[1];//这部分是解析课程表的内容，包括了后面的课程信息
+                        String htmlInfo[] = a[1].split("课表说明：底色为深色部分表示的是有冲突的课程！");
+                        Document doc = Jsoup.parse(html);   //把HTML代码加载到doc中，这部分是课程表
+                        Document docInfo = Jsoup.parse(htmlInfo[1]);//这部分是课程信息
+                        System.out.println(htmlInfo[1]);
+                        Elements classInfo = docInfo.select("font[color=#330099]");
+                        System.out.println(classInfo.toString());
+                        int count = 0;
+                        String keyValue[] = new String[]{
+                                "CourseID", "CourseName", "CourseWide", "CourseTeacher", "CourseNameListLink", "CourseForumLink"
+                        };
+                        ContentValues cv = new ContentValues();
+                        for (Element link_classInfo : classInfo) {
+                            //System.out.println(link_classInfo.toString());
+                            //System.out.println("每次循环"+link_classInfo.text());
+                            if ((count + 2) % 6 == 0 && count != 0) {
+                                //System.out.println("转化前"+link_classInfo.toString());
+                                //System.out.println(link_classInfo.text());
+                                String tempa[] = link_classInfo.toString().split("OpenWindow\\('");
+                                //System.out.println(tempa[0]);
+                                // System.out.println(link_classInfo.toString());
+                                String tempb[] = tempa[1].split("'\\);");
+                                cv.put(keyValue[4], tempb[0]);
+                            } else if ((count + 1) % 6 == 0 && count != 0) {
+                                // System.out.println("hou转化前"+link_classInfo.toString());
+                                String tempa[] = link_classInfo.toString().split("href=\"");
+                                String tempb[] = tempa[1].split("\">课程讨论区");
+                                cv.put(keyValue[5], tempb[0]);
+                                mSQLiteDatabase.insert("CourseInfo", null, cv);
+                                cv = new ContentValues();
+                            } else {
+                                cv.put(keyValue[count % 6], link_classInfo.text());
                             }
+                            count++;
+                            //if(count>3)break;
                         }
 
+                        Elements myClass = doc.select("DIV[align=center]");
+                        score = new String[myClass.size()];
+                        int pos = 1;
+                        String dayValue[] = new String[]{
+                                "OneTwo", "Three", "Four", "Five", "SixSeven", "EightNine", "Night"
+                        };
+                        for (Element link_class : myClass) {
+                            //如果当前解析到的数据无关，直接跳入下一次循环
+                            if (link_class.text().equals("1 2")
+                                    || link_class.text().equals("3")
+                                    || link_class.text().equals("3")
+                                    || link_class.text().equals("4")
+                                    || link_class.text().equals("5")
+                                    || link_class.text().equals("6 7")
+                                    || link_class.text().equals("8 9")
+                                    || link_class.text().equals("中 午")
+                                    || link_class.text().equals("下午")
+                                    || link_class.text().equals("晚上")
+                                    || link_class.text().equals("晚 上")) continue;
+                            score[i] = link_class.text();
+                            //System.out.println(score[i]);
+                            String temp[] = score[i].split("\\(");//面向对象程序设计
+                            if (temp.length > 1) {
+                                String temp2[] = temp[1].split("\\)");//W7202 ) 13级物联网2班
+                                value[pos - 1][(j / 7) + 2].put(dayValue[i / 7], temp[0] + "@" + temp2[0]);
+                            }
+                            pos++;
+                            if (pos == 8) {
+                                pos = 1;
+                            }
+                            // if(i==7)break;
+                            i++;
+                            j++;
+
+                        }
+                        for (int ii = 0; ii < value.length; ii++) {
+                            int aa = ii + 1;
+                            for (int jj = 1; jj < value[ii].length; jj++) {
+                                if (value[ii][jj].size() > 0) {
+                                    System.out.println("执行" + aa);
+                                    mSQLiteDatabase.update("CourseTable", value[ii][jj], "Week=?", new String[]{"" + aa});
+                                }
+                            }
+
+                        }
+                        SharedPreferences sp = context.getSharedPreferences("UserInfo", 0);
+                        SharedPreferences.Editor ed = sp.edit();
+                        ed.putBoolean("isFirst", false);
+                        ed.commit();
+                        // addData(weeka);
                     }
-                    SharedPreferences sp = context.getSharedPreferences("UserInfo", 0);
-                    SharedPreferences.Editor ed = sp.edit();
-                    ed.putBoolean("isFirst", false);
-                    ed.commit();
-                    addData(weeka);
+                    else{
+                        Log.d("网页返回值中解析失败，返回值的长度为",""+result.length());
+                    }
+
                 }
             }
         }.execute(url);
