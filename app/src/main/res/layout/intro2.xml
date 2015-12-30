@@ -17,7 +17,7 @@
         android:textColor="#ffffff"
         android:paddingRight="32dp"
         android:textSize="28sp"
-        android:text="课程表"/>
+        android:text="实时天气"/>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -31,7 +31,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingLeft="16dp"
-            android:paddingRight="16dp" />
+            android:paddingRight="16dp"
+            android:src="@drawable/intro2"/>
     </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
@@ -43,7 +44,7 @@
         android:paddingLeft="64dp"
         android:paddingRight="64dp"
         android:textSize="16sp"
-        android:text="实时显示课程表\n显示上课地点与时间"/>
+        android:text="在师大\n出门怎能不看天气"/>
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="64dp" />
