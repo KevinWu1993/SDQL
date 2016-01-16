@@ -9,7 +9,7 @@
         android:id="@+id/base_class_group_item_time"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-
+        android:textColor="#fff"
         android:layout_marginLeft="10dp"
         android:gravity="center_vertical"
         android:textSize="20sp"

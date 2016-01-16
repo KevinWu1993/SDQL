@@ -202,7 +202,6 @@ public class MainActivity extends AppCompatActivity
                 } else {
                     Toast.makeText(MainActivity.this, "註銷登錄失敗，請再次嚐試", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
         ad1.setNegativeButton("否", new DialogInterface.OnClickListener() {
