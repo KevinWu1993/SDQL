@@ -7,11 +7,10 @@ https://github.com/MummyDing/Awesome-Campus
 
 ### 引导界面
 
-第一次运行师大轻览 APP 时,会有一些关于该 APP 的一些功能的介绍或者提示,以
-便用户能更好、更快的使用该 APP,提前了解 APP 的功能,上手更加方便,也能让用户加
-深对该应用的了解。
+第一次运行师大轻览 APP 时,会有一些关于该 APP 的一些功能的介绍或者提示,以便用户能更好、更快的使用该 APP,提前了解 APP 的功能,上手更加方便,也能让用户加深对该应用的了解。
 
- <img src="/Pic/s1.jpg" width="180" height="270">
+<img src="/Pic/s1.jpg" width="180px" height="270px"/>
+<img src="/Pic/2.jpg" width="180px" height="270px"/>
 
 
 
