@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -143,6 +144,7 @@ public class Sstq extends Fragment {
      */
     public void setView() {
         //设置天气主界面textview
+        Log.d("天气描述","--"+info);
         tvW.setText(info.substring(info.length() - 1, info.length()));//取最后一个字符设置为天气概述
         //tvDetail.setText(status1);//设置天气详情
         tvWendu.setText(info + "   " + temp1 + "° / " + temp2 + "°");
